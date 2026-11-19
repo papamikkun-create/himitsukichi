@@ -1629,6 +1629,10 @@
               <p id="pass-curriculums" style="margin: 0 0 var(--space-sm) 0; font-weight: 700;"></p>
               <p id="pass-message-wrap" style="margin: 0; font-size: 0.9375rem;"></p>
               <div class="talent-pass-actions">
+                <button type="button" class="btn btn-primary" onclick="sendTalentPassEmail()">
+                  <i data-lucide="mail" class="icon-inline" aria-hidden="true"></i>
+                  <span>メールでエントリーを送信</span>
+                </button>
                 <button type="button" class="btn btn-blue" onclick="downloadTalentPass()">
                   <i data-lucide="download" class="icon-inline" aria-hidden="true"></i>
                   <span>タレントパス(.txt)を保存</span>
@@ -2130,8 +2134,37 @@
 
       if (feedback) {
         feedback.className = `form-feedback is-success`;
-        feedback.textContent = `1期生タレントパス（プレビュー）を発行しました！内容を確認・テキスト保存できます。`;
+        feedback.textContent = `1期生タレントパスを発行し、メール作成画面を開きました！そのまま送信してください。`;
       }
+
+      sendTalentPassEmail();
+    }
+
+    function sendTalentPassEmail() {
+      const selectedNames = CURRICULUMS.filter(function(c) {
+        return appState.savedCurriculums.indexOf(c.id) !== -1;
+      }).map(function(c) {
+        return c.title;
+      });
+
+      const subject = `【ひみつきち】1期生エントリー（${appState.form.name.trim()}）`;
+      const body = [
+        `「ひみつきち」1期生にエントリーします！`,
+        ``,
+        `========================================`,
+        `ひみつきち（HIMITSUKICHI）1期生タレントパス`,
+        `========================================`,
+        `■ お名前：${appState.form.name.trim()}`,
+        `■ 活動エリア：${appState.form.area}`,
+        `■ 得意スキル・本業・趣味：${appState.form.skill.trim()}`,
+        `■ 気になるカリキュラム：${selectedNames.length > 0 ? selectedNames.join(` ／ `) : `全カリキュラムに興味あり（相談して決定）`}`,
+        `■ ひみつきちでやってみたいこと：`,
+        `${appState.form.message.trim() || `最高の父親を楽しみ、筑豊を熱狂させる！`}`,
+        `========================================`
+      ].join(`\r\n`);
+
+      const mailtoUrl = `mailto:papamikkun@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
     }
 
     function renderTalentPass() {
