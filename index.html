@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="bauhaus">
+  <title>ひみつきち｜求む、筑豊の「遊べる」オヤジたち。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Bauhaus) */
+      --background: #f5f0e8;
+      --surface-container-low: #f2ede5;
+      --surface-container: #eee9e0;
+      --surface-container-high: #e8e3da;
+
+      /* Ink */
+      --on-surface: #1a1a1a;
+      --on-surface-variant: #4a4a4a;
+
+      /* Lines */
+      --outline: #1a1a1a;
+      --outline-variant: #d0cbc3;
+
+      /* Accents */
+      --primary: #1a1a1a;
+      --on-primary: #ffffff;
+      --primary-container: #ffcc00;
+      --on-primary-container: #1a1a1a;
+      --secondary: #e63b2e;
+      --tertiary: #0055ff;
+      --error: #cc0000;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #e63b2e;
+      --data-2: #0055ff;
+      --data-3: #1a1a1a;
+      --data-4: #9a7300;
+      --data-context: #b5afa5;
+
+      /* Semantic & Focus */
+      --positive: #15803d;
+      --on-positive: #ffffff;
+      --warning: #b45309;
+      --focus: #0055ff;
+
+      /* Fonts */
+      --font-headline: 'Noto Sans JP', 'Space Grotesk', sans-serif;
+      --font-body: 'Noto Sans JP', 'Inter', sans-serif;
+      --font-label: 'Space Grotesk', 'Noto Sans JP', sans-serif;
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.75rem;
+
+      /* Style effects */
+      --border-thick: 3px solid var(--outline);
+      --border-medium: 2px solid var(--outline);
+      --border-thin: 1px solid var(--outline-variant);
+      --offset-shadow: 5px 5px 0 var(--outline);
+      --offset-shadow-sm: 3px 3px 0 var(--outline);
+      --offset-shadow-lg: 8px 8px 0 var(--outline);
+      --rule-heavy: 6px solid var(--outline);
+      --accent-bar: 8px solid var(--tertiary);
+
+      /* Type scale (Narrative) */
+      --display-size: clamp(2.4rem, 1.4rem + 3.6vw, 4.4rem);
+      --headline-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.5rem);
+      --subhead-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+      --body-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+      --label-size: 0.8125rem;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 5.5rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-md) var(--space-lg) var(--space-3xl);
+    }
+    .page-shell * { min-width: 0; }
+
+    /* Header / Masthead */
+    .masthead {
+      border-bottom: var(--rule-heavy);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      text-decoration: none;
+      color: var(--on-surface);
+    }
+    .brand-svg {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow-sm);
+      background: var(--primary-container);
+    }
+    .brand-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .brand-name {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.45rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .brand-sub {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--on-surface);
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: var(--rounded);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .nav-link:hover {
+      background-color: var(--primary-container);
+      border-color: var(--outline);
+    }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .nav-cta:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-1px, -1px);
+    }
+    .nav-cta:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    /* Bauhaus Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .btn-primary:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn-secondary {
+      background-color: var(--background);
+      color: var(--on-surface);
+    }
+    .btn-secondary:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .btn-blue:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Hero Section */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+      margin-bottom: var(--space-2xl);
+    }
+    .hero-kicker-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .kicker-block {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .kicker-block-yellow {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      border: var(--border-medium);
+    }
+    .kicker-block-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .kicker-jp {
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .hero-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-surface);
+    }
+    .hero-title mark {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      padding: 0 var(--space-xs);
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .hero-catchphrase {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+      line-height: 1.3;
+      margin: 0 0 var(--space-md) 0;
+      padding-left: var(--space-md);
+      border-left: 6px solid var(--tertiary);
+    }
+    .hero-lede {
+      max-width: 62ch;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-lg) 0;
+      font-size: 1.0625rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+    }
+
+    /* Keynote / Manifesto Side Panel */
+    .block-card {
+      background-color: var(--surface-container-low);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      padding: var(--space-lg);
+    }
+    .block-card-yellow {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .block-card-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .block-card-dark {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .keynote-tabs {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .keynote-tab-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .keynote-tab-btn.is-active {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: var(--offset-shadow-sm);
+    }
+
+    .problem-list {
+      list-style: none;
+      margin: var(--space-md) 0 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .problem-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--background);
+      border: var(--border-medium);
+      font-weight: 700;
+    }
+    .problem-num {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xs) var(--space-sm);
+      flex-shrink: 0;
+    }
+
+    .bauhaus-poster-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: var(--border-medium);
+      background-color: var(--background);
+      margin-bottom: var(--space-md);
+    }
+
+    /* Stats Strip */
+    .figure-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-lg);
+      border-top: var(--border-thick);
+      border-bottom: var(--border-thick);
+      padding-block: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+    .figure-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .figure-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .figure-value {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.35rem);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+    .figure-caption {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Section Openings */
+    .section-block {
+      margin-bottom: var(--space-3xl);
+    }
+    .section-open {
+      padding-top: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .section-open--blue { border-top: 8px solid var(--tertiary); }
+    .section-open--red { border-top: 8px solid var(--secondary); }
+    .section-open--yellow { border-top: 8px solid var(--primary-container); }
+    .section-open--black { border-top: 8px solid var(--primary); }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: var(--space-sm) 0 var(--space-sm) 0;
+      color: var(--on-surface);
+    }
+    .section-intro {
+      max-width: 65ch;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Concept: 3 Pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .pillar-num {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pillar-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .pillar-en {
+      font-family: var(--font-label);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: var(--space-xs);
+    }
+    .manifesto-banner {
+      margin-top: var(--space-lg);
+      padding: var(--space-lg);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .manifesto-quote {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+      margin: 0;
+    }
+
+    /* Curriculum Section */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .filter-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .filter-btn:hover {
+      background-color: var(--surface-container-high);
+    }
+    .filter-btn.is-active {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: var(--offset-shadow-sm);
+    }
+
+    .curriculum-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .curriculum-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .curriculum-item {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--offset-shadow-sm);
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .curriculum-item:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--offset-shadow);
+    }
+    .curriculum-item.is-selected {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .curriculum-item-head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .curriculum-tag {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 2px var(--space-sm);
+      border: var(--border-medium);
+      background-color: var(--background);
+      color: var(--on-surface);
+      width: fit-content;
+    }
+    .curriculum-name {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      color: var(--on-surface);
+    }
+    .curriculum-sub {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    .spotlight-panel {
+      position: sticky;
+      top: var(--space-lg);
+      background-color: var(--surface-container);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      padding: var(--space-xl) var(--space-lg);
+    }
+    .spotlight-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: var(--border-thick);
+    }
+    .spotlight-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      margin: 0 0 var(--space-sm) 0;
+    }
+    .spotlight-quote {
+      background-color: var(--background);
+      border-left: 6px solid var(--tertiary);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      font-weight: 500;
+    }
+    .spotlight-outcome {
+      background-color: var(--background);
+      border: var(--border-medium);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .interest-btn {
+      width: 100%;
+    }
+    .interest-btn.is-saved {
+      background-color: var(--positive);
+      color: var(--on-positive);
+    }
+
+    /* Talent Matrix + Interactive Simulator */
+    .talent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .talent-card {
+      background-color: var(--surface-container-low);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .talent-formula {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xs) var(--space-sm);
+      width: fit-content;
+    }
+    .talent-output {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.25rem;
+      line-height: 1.25;
+      margin: var(--space-xs) 0 0 0;
+      color: var(--tertiary);
+    }
+
+    /* Papa-Mapping Simulator */
+    .simulator-box {
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-container);
+      padding: var(--space-xl);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .sim-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      color: var(--on-surface);
+    }
+    .bauhaus-input,
+    .bauhaus-select,
+    .bauhaus-textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--background);
+      color: var(--on-surface);
+      border: none;
+      border-bottom: 3px solid var(--outline);
+      border-radius: 0;
+      font-size: 1rem;
+    }
+    .bauhaus-select {
+      padding-right: var(--space-xl);
+    }
+    .bauhaus-input:focus,
+    .bauhaus-select:focus,
+    .bauhaus-textarea:focus {
+      border-bottom-color: var(--tertiary);
+    }
+    .sim-result {
+      background-color: var(--background);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow-sm);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .sim-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .sim-role-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    /* Roadmap */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .roadmap-card {
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-container-low);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .roadmap-card.is-current {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .roadmap-step-tag {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      width: fit-content;
+    }
+    .roadmap-card h3 {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: 1.35rem;
+      margin: var(--space-xs) 0 0 0;
+      line-height: 1.25;
+    }
+
+    /* Partners */
+    .partners-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-xl);
+      margin-bottom: var(--space-lg);
+    }
+    .partner-card {
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-container-low);
+      padding: var(--space-xl) var(--space-lg);
+    }
+    .partner-card--blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .partner-list {
+      margin: var(--space-md) 0 0 0;
+      padding-left: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .partner-formats {
+      border: var(--border-thick);
+      background-color: var(--surface-container);
+      padding: var(--space-lg);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    /* Recruitment Table & Entry Form */
+    .recruit-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: var(--border-thick);
+      background-color: var(--surface-container-low);
+      box-shadow: var(--offset-shadow);
+      margin-bottom: var(--space-lg);
+    }
+    .spec-table th,
+    .spec-table td {
+      padding: var(--space-md);
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .spec-table thead th {
+      background-color: var(--surface-container-high);
+      border-bottom: var(--border-thick);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+    .spec-table tbody th {
+      width: 32%;
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    .one-more-thing {
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      padding: var(--space-lg);
+    }
+    .one-more-thing h3 {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin: 0 0 var(--space-sm) 0;
+    }
+
+    .entry-form-card {
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-container);
+      padding: var(--space-xl) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .checkbox-pill {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--background);
+      border: var(--border-medium);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+    .checkbox-pill input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--tertiary);
+      flex-shrink: 0;
+    }
+    .form-feedback {
+      min-height: 1.5rem;
+      font-weight: 700;
+      font-size: 0.9375rem;
+    }
+    .form-feedback.is-error {
+      color: var(--error);
+    }
+    .form-feedback.is-success {
+      color: var(--positive);
+    }
+
+    /* Talent Pass Preview */
+    .talent-pass {
+      margin-top: var(--space-md);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--background);
+      padding: var(--space-lg);
+    }
+    .talent-pass-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      border-bottom: var(--border-thick);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .talent-pass-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: var(--rule-heavy);
+      padding-top: var(--space-xl);
+      margin-top: var(--space-2xl);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-lg);
+    }
+    .footer-meta {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      max-width: 58ch;
+      margin: 0;
+    }
+
+    /* Icon helper */
+    .icon-inline {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Scroll reveal */
+    .reveal-ready {
+      opacity: 0;
+      transform: translateX(-14px);
+      transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+    }
+    .reveal-ready.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .curriculum-layout,
+      .simulator-box,
+      .recruit-grid {
+        grid-template-columns: 1fr;
+      }
+      .spotlight-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: var(--space-sm) var(--space-md) var(--space-2xl);
+      }
+      .simulator-box,
+      .entry-form-card,
+      .partner-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal-ready {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- Header -->
+    <header class="masthead">
+      <a href="#top" class="brand-lockup">
+        <svg class="brand-svg" viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="64" height="64" fill="var(--primary-container)"/>
+          <polygon points="8,54 32,14 56,54" fill="var(--primary)"/>
+          <rect x="28" y="34" width="8" height="20" fill="var(--background)"/>
+          <circle cx="48" cy="16" r="7" fill="var(--secondary)"/>
+        </svg>
+        <div class="brand-text-group">
+          <span class="brand-name">ひみつきち</span>
+          <span class="brand-sub">HIMITSUKICHI / CHIKUHO PAPA TALENT AGENCY</span>
+        </div>
+      </a>
+      <nav class="nav-bar" aria-label="サイト内ナビゲーション">
+        <a href="#concept" class="nav-link">コンセプト</a>
+        <a href="#curriculum" class="nav-link">5つの体験</a>
+        <a href="#talent" class="nav-link">タレント還元</a>
+        <a href="#roadmap" class="nav-link">ロードマップ</a>
+        <a href="#partners" class="nav-link">企業・病院連携</a>
+        <a href="#join" class="nav-cta">
+          <i data-lucide="zap" class="icon-inline" aria-hidden="true"></i>
+          <span>0期生募集</span>
+        </a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <!-- Hero Section -->
+      <section class="hero-grid" aria-label="キーメッセージ">
+        <div>
+          <div class="hero-kicker-row">
+            <span class="kicker-block">REINVENTS FATHERHOOD</span>
+            <span class="kicker-block kicker-block-yellow kicker-jp">パパ専門タレント事務所</span>
+          </div>
+          <h1 class="hero-title">求む、筑豊の<mark>「遊べる」</mark>オヤジたち。</h1>
+          <p class="hero-catchphrase">パパが変われば、家族が笑う。筑豊が変わる。<br><span style="font-size: 0.85em; color: var(--on-surface-variant);">最高にクールな父親になるための秘密基地、始動。</span></p>
+          <p class="hero-lede">
+            「仕事だけの人生で、終わるつもりですか？」——既存の『父親像』という古いソフトウェアはバグだらけです。日々の育児を単なる『タスク』から、クリエイティブな活動へとアップデートしませんか？参加するパパたちを「タレント」と見なし、その専門スキルを地域資源としてプロデュースする、パパ専門の「タレント事務所」——それが秘密基地「ひみつきち」です。
+          </p>
+          <div class="hero-actions">
+            <a href="#join" class="btn btn-primary">
+              <i data-lucide="user-plus" class="icon-inline" aria-hidden="true"></i>
+              <span>初期メンバー（0期生）に応募する</span>
+            </a>
+            <a href="#partners" class="btn btn-blue">
+              <i data-lucide="handshake" class="icon-inline" aria-hidden="true"></i>
+              <span>協賛・連携のご相談（企業・医療機関向け）</span>
+            </a>
+            <a href="#talent-simulator" class="btn btn-secondary">
+              <i data-lucide="compass" class="icon-inline" aria-hidden="true"></i>
+              <span>タレント診断を試す</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Hero Panel: Keynote / Founder Story Toggle -->
+        <aside class="block-card" aria-label="マニフェストと設立背景">
+          <svg class="bauhaus-poster-svg" viewBox="0 0 420 140" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="420" height="140" fill="var(--background)"/>
+            <rect x="16" y="16" width="110" height="108" fill="var(--tertiary)"/>
+            <circle cx="195" cy="70" r="52" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="3"/>
+            <polygon points="275,124 340,20 404,124" fill="var(--secondary)"/>
+            <rect x="16" y="16" width="388" height="108" fill="none" stroke="var(--outline)" stroke-width="3"/>
+            <line x1="142" y1="16" x2="142" y2="124" stroke="var(--outline)" stroke-width="3"/>
+          </svg>
+
+          <div class="keynote-tabs" role="tablist" aria-label="表示モード切替">
+            <button type="button" id="tab-keynote" class="keynote-tab-btn is-active" onclick="switchHeroPanel('keynote')">
+              KEYNOTE：解決する3つの課題
+            </button>
+            <button type="button" id="tab-story" class="keynote-tab-btn" onclick="switchHeroPanel('story')">
+              STORY：なぜ今、パパなのか
+            </button>
+          </div>
+
+          <div id="panel-keynote">
+            <p style="margin: 0; font-weight: 700;">今日、「ひみつきち」は3つの問題を同時に解決します。</p>
+            <ul class="problem-list">
+              <li class="problem-item">
+                <span class="problem-num">01</span>
+                <span>孤立した育児（ママ友のようなネットワーク不足）</span>
+              </li>
+              <li class="problem-item">
+                <span class="problem-num">02</span>
+                <span>スキルの埋没（プロ級の腕前が休日に眠っている）</span>
+              </li>
+              <li class="problem-item">
+                <span class="problem-num">03</span>
+                <span>退屈な週末（地域との断絶・魅力的な場の不足）</span>
+              </li>
+            </ul>
+          </div>
+
+          <div id="panel-story" hidden>
+            <p style="margin: 0 0 var(--space-sm) 0; font-weight: 700;">
+              発起人・宮原 礼智からのメッセージ
+            </p>
+            <p style="margin: 0 0 var(--space-sm) 0; font-size: 0.9375rem;">
+              シングルファザーとして10年以上、3人の子育てをする中で痛感したのは「孤独」と「もったいなさ」でした。筑豊にはすごい技術や面白い経験を持つ父親がたくさんいるのに、家庭や地域で活かされず、ただ「仕事をする人」になっていないでしょうか。
+            </p>
+            <p style="margin: 0; font-size: 0.9375rem; font-weight: 700;">
+              「この街で子育てしたい」と思える最高の大人の遊び場を、私たちの手でつくります。
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Key Metrics Strip -->
+      <section class="figure-strip" aria-label="ひみつきちのコア指標">
+        <div class="figure-item">
+          <span class="figure-label">01 / CORE PILLARS</span>
+          <span class="figure-value">3つの柱</span>
+          <p class="figure-caption">UNITE・UPGRADE・IMPACT</p>
+        </div>
+        <div class="figure-item">
+          <span class="figure-label">02 / ACTIVITIES</span>
+          <span class="figure-value">5つの体験</span>
+          <p class="figure-caption">講座を超えた魔法のカリキュラム</p>
+        </div>
+        <div class="figure-item">
+          <span class="figure-label">03 / COHORT ZERO</span>
+          <span class="figure-value">0期生 募集中</span>
+          <p class="figure-caption">卒業のない生涯エクスペリエンス</p>
+        </div>
+        <div class="figure-item">
+          <span class="figure-label">04 / HOME GROUND</span>
+          <span class="figure-value">筑豊エリア</span>
+          <p class="figure-caption">ローカルから家庭・世界を変える</p>
+        </div>
+      </section>
+      <!-- Section 1: Concept -->
+      <section id="concept" class="section-block">
+        <div class="section-open section-open--blue">
+          <span class="kicker-block kicker-block-blue">CONCEPT — THE POWER OF THREE</span>
+          <h2 class="section-title">単なる育児サークルではない。父親を再定義する「ひみつきち」。</h2>
+          <p class="section-intro">
+            私たちが提供するのは「知識」ではなく、「家族との、まったく新しい関係性」という体験（エクスペリエンス）です。参加するパパを「タレント」としてプロデュースし、「教える」「作る」「楽しませる」プロフェッショナル集団を目指します。
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          <article class="block-card reveal-ready">
+            <div class="pillar-num">
+              <span>PILLAR 01</span>
+              <i data-lucide="users" class="icon-inline" aria-hidden="true"></i>
+            </div>
+            <span class="pillar-en">UNITE</span>
+            <h3 class="pillar-title">繋がる</h3>
+            <p style="margin: 0;">
+              会社の肩書きや名刺をすべて捨て、「一人の男」として筑豊の仲間と繋がる。利害関係のない本物の戦友と出会える、地域最強のネットワークです。
+            </p>
+          </article>
+
+          <article class="block-card block-card-yellow reveal-ready">
+            <div class="pillar-num">
+              <span>PILLAR 02 / CORE</span>
+              <i data-lucide="cpu" class="icon-inline" aria-hidden="true"></i>
+            </div>
+            <span class="pillar-en">UPGRADE</span>
+            <h3 class="pillar-title">高める</h3>
+            <p style="margin: 0;">
+              IT、遊び、料理、対話。仕事で培ったプロ級のスキルや趣味を家庭向けにアップデートし、家族を笑顔にするスキルをクリエイティブに習得します。
+            </p>
+          </article>
+
+          <article class="block-card reveal-ready">
+            <div class="pillar-num">
+              <span>PILLAR 03</span>
+              <i data-lucide="sparkles" class="icon-inline" aria-hidden="true"></i>
+            </div>
+            <span class="pillar-en">IMPACT</span>
+            <h3 class="pillar-title">変える</h3>
+            <p style="margin: 0;">
+              あなたが家に帰ったとき、家族は魔法にかかったような変化に気づくでしょう。パパが変われば家族が笑い、家族が変われば筑豊が変わります。
+            </p>
+          </article>
+        </div>
+
+        <div class="manifesto-banner">
+          <p class="manifesto-quote">Let’s make a dent in the universe, from Chikuho.</p>
+          <span class="kicker-block kicker-block-yellow kicker-jp">筑豊から、宇宙に風穴を開けよう。</span>
+        </div>
+      </section>
+
+      <!-- Section 2: 5 Curriculums -->
+      <section id="curriculum" class="section-block">
+        <div class="section-open section-open--red">
+          <span class="kicker-block">ACTIVITIES &amp; EXPERIENCE</span>
+          <h2 class="section-title">「講座」ではなく、人生を面白くする5つの魔法体験。</h2>
+          <p class="section-intro">
+            「ひみつきち」の活動は、義務的な育児講座ではありません。家族との時間を最大化し、父親自身が表現者として輝くための5つの公式カリキュラムです。左の一覧からクリックして詳細をチェックし、気になる体験を保存できます。
+          </p>
+        </div>
+
+        <div class="filter-row" role="group" aria-label="カリキュラム絞り込み">
+          <button type="button" class="filter-btn is-active" data-filter="all" onclick="filterCurriculums('all')">すべて表示 (5)</button>
+          <button type="button" class="filter-btn" data-filter="tech" onclick="filterCurriculums('tech')">IT・ストーリー</button>
+          <button type="button" class="filter-btn" data-filter="craft" onclick="filterCurriculums('craft')">アウトドア・料理</button>
+          <button type="button" class="filter-btn" data-filter="dialogue" onclick="filterCurriculums('dialogue')">対話・シンクタンク</button>
+        </div>
+
+        <div class="curriculum-layout">
+          <div class="curriculum-list" id="curriculum-list"></div>
+
+          <aside class="spotlight-panel" id="curriculum-spotlight" aria-live="polite">
+            <div class="spotlight-meta">
+              <span class="kicker-block kicker-block-blue" id="spot-category">IT × 子育て</span>
+              <span id="spot-code" style="font-family: var(--font-label); font-weight: 700;">PROGRAM 01</span>
+            </div>
+            <h3 class="spotlight-title" id="spot-title">iFather（アイ・ファザー）</h3>
+            <p id="spot-lead" style="margin: 0; font-weight: 700;">テクノロジーで家族との時間を最大化する。</p>
+            <div class="spotlight-quote" id="spot-quote"></div>
+            <div class="spotlight-outcome">
+              <strong style="display: block; margin-bottom: var(--space-xs); font-size: 0.875rem;">家族・地域へのインパクト</strong>
+              <span id="spot-impact"></span>
+            </div>
+            <button type="button" id="spot-save-btn" class="btn btn-primary interest-btn" onclick="toggleSavedCurriculum()">
+              <i data-lucide="bookmark" class="icon-inline" aria-hidden="true"></i>
+              <span id="spot-save-label">この体験を「気になるリスト」に保存</span>
+            </button>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Section 3: Talent Production & Papa-Mapping -->
+      <section id="talent" class="section-block">
+        <div class="section-open section-open--yellow">
+          <span class="kicker-block kicker-block-yellow kicker-jp">地域・子どもたちへの還元</span>
+          <h2 class="section-title">パパの「得意」が、筑豊の「特別」になる。</h2>
+          <p class="section-intro">
+            「ひみつきち」はパパ専門のタレント事務所。お父さん一人ひとりの本業や趣味を地域資源としてプロデュースし、子どもたちや街へワクワクを還元します。
+          </p>
+        </div>
+
+        <div class="talent-grid">
+          <article class="talent-card reveal-ready">
+            <span class="talent-formula">【ITパパ】 × 子供たち</span>
+            <h3 class="talent-output">プログラミング・ゲーム制作教室</h3>
+            <p style="margin: 0; font-size: 0.9375rem;">
+              エンジニアやIT好きパパの知識を解放し、子どもたちが「遊ぶ側」から「創る側」へステップアップする体験をデザイン。
+            </p>
+          </article>
+
+          <article class="talent-card reveal-ready">
+            <span class="talent-formula">【医療パパ】 × 家族</span>
+            <h3 class="talent-output">救急救命・健康ワークショップ</h3>
+            <p style="margin: 0; font-size: 0.9375rem;">
+              医師・看護師・救命士パパが、病院ではゆっくり聞けない応急手当や予防医療の知恵を、親子参加型の楽しいワークで伝授。
+            </p>
+          </article>
+
+          <article class="talent-card reveal-ready">
+            <span class="talent-formula">【DIYパパ】 × 施設</span>
+            <h3 class="talent-output">キッズスペースのリノベーション</h3>
+            <p style="margin: 0; font-size: 0.9375rem;">
+              建築・大工・ものづくりパパが集結。地域の公民館や子育て施設に、子どもたちが秘密基地にしたくなる空間をリアルに施工。
+            </p>
+          </article>
+
+          <article class="talent-card reveal-ready">
+            <span class="talent-formula">【料理パパ】 × 食育</span>
+            <h3 class="talent-output">男の豪快キャンプ飯講座</h3>
+            <p style="margin: 0; font-size: 0.9375rem;">
+              料理好きパパや飲食プロが、焚き火と鉄板を舞台に豪快な一皿をプロデュース。子どもたちと「食と自立」の楽しさを共有。
+            </p>
+          </article>
+        </div>
+
+        <!-- Interactive Papa-Mapping Simulator -->
+        <div id="talent-simulator" class="simulator-box">
+          <div class="sim-controls">
+            <div>
+              <span class="kicker-block kicker-block-blue kicker-jp">インタラクティブ診断</span>
+              <h3 style="font-family: var(--font-headline); font-weight: 900; font-size: 1.5rem; margin: var(--space-sm) 0 var(--space-xs) 0;">
+                パパ・マッピング：あなたの「タレント性」を仮プロデュース
+              </h3>
+              <p style="margin: 0; font-size: 0.9375rem; color: var(--on-surface-variant);">
+                平日の仕事や休日の得意分野を選ぶと、「ひみつきち」であなたがどんなタレントとして輝けるかを即座にシミュレーションします。
+              </p>
+            </div>
+
+            <div class="field-group">
+              <label for="sim-job" class="field-label">1. あなたの本業・得意ジャンル</label>
+              <select id="sim-job" class="bauhaus-select" onchange="updateTalentSim()">
+                <option value="it">IT・デジタル・ガジェット系</option>
+                <option value="medical">医療・健康・福祉・スポーツ系</option>
+                <option value="diy">建築・製造・DIY・ものづくり系</option>
+                <option value="food">飲食・料理・キャンプ・自然系</option>
+                <option value="creative">企画・営業・教育・表現系</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="sim-style" class="field-label">2. 休日にワクワクするスタイル</label>
+              <select id="sim-style" class="bauhaus-select" onchange="updateTalentSim()">
+                <option value="build">手を動かしてカタチにする</option>
+                <option value="teach">子どもにわかりやすく教える</option>
+                <option value="connect">仲間と語り合い・場をつくる</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sim-result" id="sim-result" aria-live="polite">
+            <div class="sim-badge-row">
+              <span class="kicker-block kicker-block-yellow kicker-jp" id="sim-talent-type">ITパパ・タレント</span>
+              <span class="kicker-block" id="sim-curriculum-tag">推奨：iFather</span>
+            </div>
+            <h4 class="sim-role-title" id="sim-project-title">筑豊キッズ・ゲームラボ 主宰</h4>
+            <p id="sim-desc" style="margin: 0;"></p>
+            <div style="border-top: 2px solid var(--outline-variant); padding-top: var(--space-sm);">
+              <strong style="font-size: 0.875rem; display: block; margin-bottom: var(--space-xs);">最初のミッション案：</strong>
+              <span id="sim-mission" style="font-size: 0.9375rem;"></span>
+            </div>
+            <button type="button" class="btn btn-blue" onclick="applySimToForm()">
+              <i data-lucide="arrow-down-right" class="icon-inline" aria-hidden="true"></i>
+              <span>この診断結果を0期生エントリーに反映する</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Roadmap -->
+      <section id="roadmap" class="section-block">
+        <div class="section-open section-open--black">
+          <span class="kicker-block">ROADMAP — これからの展開</span>
+          <h2 class="section-title">筑豊で一番面白い大人の遊び場をつくる、3段階のロードマップ。</h2>
+          <p class="section-intro">
+            まずは志を同じくする初期メンバーの集結から。一人ひとりのスキルを棚卸しし、法人化と地域フェスへとステップアップします。
+          </p>
+        </div>
+
+        <div class="roadmap-grid">
+          <article class="roadmap-card is-current reveal-ready">
+            <span class="roadmap-step-tag">STEP 01｜現在（NOW）</span>
+            <h3>初期メンバー（0期生）募集 ＆ チームビルディング</h3>
+            <p style="margin: 0;">
+              「仕事だけの人生」から一歩踏み出し、筑豊から家庭と街を面白くしたいコアメンバー（0期生）を募集中。まずは「The Garage Sessions」で本音で語り合い、秘密基地の土台を固めます。
+            </p>
+          </article>
+
+          <article class="roadmap-card reveal-ready">
+            <span class="roadmap-step-tag">STEP 02｜近日（NEXT）</span>
+            <h3>スキル棚卸し会（パパ・マッピング）開催</h3>
+            <p style="margin: 0;">
+              参加メンバーの職業、趣味、特技、やってみたいことを徹底的に可視化。「ITパパ×DIYパパ」「医療パパ×料理パパ」など、異業種の掛け算で地域イベントの原型を企画・試作します。
+            </p>
+          </article>
+
+          <article class="roadmap-card reveal-ready">
+            <span class="roadmap-step-tag">STEP 03｜未来（FUTURE）</span>
+            <h3>NPO法人化 ＆ キックオフフェスタ開催</h3>
+            <p style="margin: 0;">
+              継続的に地域・企業・医療機関と連携できる組織としてNPO法人化を実現。筑豊の家族と子どもたちが主役となる「ひみつきち キックオフフェスタ」を開催し、街に新しい熱狂を生みます。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 5: Corporate & Hospital Partnership -->
+      <section id="partners" class="section-block">
+        <div class="section-open section-open--blue">
+          <span class="kicker-block kicker-block-blue">PARTNERSHIP — 企業・医療機関様へ</span>
+          <h2 class="section-title">子育て世代の「信頼」と「笑顔」を共創するパートナーシップ。</h2>
+          <p class="section-intro">
+            「ひみつきち」はパパたちの力だけでなく、筑豊の未来を支える医療機関・企業の皆さまと連携することで、地域に確かな価値を届けます。
+          </p>
+        </div>
+
+        <div class="partners-layout">
+          <article class="partner-card partner-card--blue reveal-ready">
+            <span class="kicker-block kicker-block-yellow kicker-jp">FOR HOSPITALS &amp; CLINICS</span>
+            <h3 style="font-family: var(--font-headline); font-weight: 900; font-size: 1.5rem; margin: var(--space-sm) 0;">
+              医療機関様との連携メリット
+            </h3>
+            <ul class="partner-list">
+              <li>
+                <strong>予防医療・健康知識の楽しい啓蒙：</strong><br>
+                院内の診察時間だけでは伝えきれない「家庭での予防医療」「子どもの応急処置」「父親のメンタル・健康管理」を、体験型イベントを通じて楽しく届けられます。
+              </li>
+              <li>
+                <strong>若いファミリー層との深い信頼構築：</strong><br>
+                「地域の子育てを本気で応援する病院・クリニック」として、筑豊のパパ・ママ世代との長期的な信頼関係を築けます。
+              </li>
+            </ul>
+          </article>
+
+          <article class="partner-card reveal-ready">
+            <span class="kicker-block kicker-jp">FOR COMPANIES &amp; SPONSORS</span>
+            <h3 style="font-family: var(--font-headline); font-weight: 900; font-size: 1.5rem; margin: var(--space-sm) 0;">
+              企業・スポンサー様との連携メリット
+            </h3>
+            <ul class="partner-list">
+              <li>
+                <strong>CSR活動・地域活性化への確かな貢献：</strong><br>
+                単なる協賛にとどまらず、キッズスペース改修や体験教室など「子どもたちの笑顔が目に見える」形で地域課題（人口減少・育児孤立）の解決に貢献できます。
+              </li>
+              <li>
+                <strong>社員のエンゲージメント・育児参画支援：</strong><br>
+                社員パパが「ひみつきち」のタレントとして地域で活躍することで、自社スキルの社会還元とワークライフバランスの質向上に繋がります。
+              </li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="partner-formats">
+          <div>
+            <strong style="display: block; font-size: 1.0625rem;">連携スタイル（例）をプレビュー：</strong>
+            <span id="partner-preview-text" style="color: var(--on-surface-variant); font-size: 0.9375rem;">
+              選択中の連携モデル：医療機関・企業との共同ワークショップ（予防医療×アウトドア等）の企画・開催
+            </span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <button type="button" class="filter-btn is-active" id="p-btn-workshop" onclick="selectPartnerMode('workshop')">共同ワークショップ</button>
+            <button type="button" class="filter-btn" id="p-btn-space" onclick="selectPartnerMode('space')">場所・資材サポート</button>
+            <button type="button" class="filter-btn" id="p-btn-talent" onclick="selectPartnerMode('talent')">専門スタッフ・講師連携</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: 0th Cohort Recruitment & Entry -->
+      <section id="join" class="section-block">
+        <div class="section-open section-open--red">
+          <span class="kicker-block">RECRUITMENT — ARE YOU THE CRAZY ONE?</span>
+          <h2 class="section-title">常識を変えたいパパ、0期生募集。</h2>
+          <p class="section-intro">
+            自分の人生を、家族との時間を、もっと美しく、もっと面白くしたいと願う「表現者」を探しています。必要なのは資格ではなく、妥協のない情熱だけです。
+          </p>
+        </div>
+
+        <div class="recruit-grid">
+          <div>
+            <table class="spec-table">
+              <thead>
+                <tr>
+                  <th colspan="2">「ひみつきち」0期生 募集要項</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">名称</th>
+                  <td>ひみつきち（パパ専門タレント事務所・秘密基地）</td>
+                </tr>
+                <tr>
+                  <th scope="row">対象</th>
+                  <td>家族を愛しているが、もっと面白くしたいと願うすべてのパパ</td>
+                </tr>
+                <tr>
+                  <th scope="row">活動エリア</th>
+                  <td>筑豊エリア（私たちのホームグラウンド）</td>
+                </tr>
+                <tr>
+                  <th scope="row">参加費</th>
+                  <td>妥協のない情熱（※イベント実費等は都度ご案内）</td>
+                </tr>
+                <tr>
+                  <th scope="row">ミッション</th>
+                  <td>最高の父親を楽しみ、家族を笑わせ、筑豊を熱狂させること</td>
+                </tr>
+                <tr>
+                  <th scope="row">応募方法</th>
+                  <td>公式LINE登録、または申し込みフォームへの入力</td>
+                </tr>
+                <tr>
+                  <th scope="row">発起人 / 代表</th>
+                  <td>宮原 礼智（設立プロジェクト代表）</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="one-more-thing">
+              <h3>One More Thing...</h3>
+              <p style="margin: 0 0 var(--space-sm) 0;">
+                あぁ、言い忘れました。この「ひみつきち」に入ると、奥様からの視線が変わります。それは、最新のガジェットを手にした時のような、驚きと喜びに満ちた眼差しです。
+              </p>
+              <p style="margin: 0 0 var(--space-sm) 0;">
+                そしてこの場所には「卒業」がありません。なぜなら、パパという冒険は一生続く最高のエクスペリエンスだからです。
+              </p>
+              <p style="margin: 0; font-family: var(--font-label); font-weight: 700;">
+                Stay hungry, stay foolish. Stay Papa.
+              </p>
+            </div>
+          </div>
+
+          <!-- Interactive 0th Cohort Entry Form -->
+          <div class="entry-form-card">
+            <div>
+              <span class="kicker-block kicker-block-yellow kicker-jp">0期生 仮エントリー＆タレント登録</span>
+              <h3 style="font-family: var(--font-headline); font-weight: 900; font-size: 1.45rem; margin: var(--space-sm) 0 var(--space-xs) 0;">
+                あなたの「スキル」と「ワクワク」を登録しよう
+              </h3>
+              <p style="margin: 0; font-size: 0.875rem; color: var(--on-surface-variant);">
+                入力内容はブラウザ内で自動保存され、「0期生タレントパス（仮登録カード）」として即座にプレビュー・テキスト保存できます。
+              </p>
+            </div>
+
+            <div class="field-group">
+              <label for="entry-name" class="field-label">お名前（またはニックネーム） <span style="color: var(--error);">*必須</span></label>
+              <input type="text" id="entry-name" class="bauhaus-input" oninput="handleFormChange()" autocomplete="name">
+            </div>
+
+            <div class="field-group">
+              <label for="entry-area" class="field-label">筑豊・活動エリア</label>
+              <select id="entry-area" class="bauhaus-select" onchange="handleFormChange()">
+                <option value="飯塚市">飯塚市</option>
+                <option value="直方市">直方市</option>
+                <option value="田川市・田川郡">田川市・田川郡</option>
+                <option value="嘉麻市・桂川町">嘉麻市・桂川町</option>
+                <option value="宮若市・鞍手町・小竹町">宮若市・鞍手町・小竹町</option>
+                <option value="筑豊エリア外（応援・参加希望）">筑豊エリア外（応援・参加希望）</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="entry-skill" class="field-label">あなたの得意スキル・本業・趣味 <span style="color: var(--error);">*必須</span></label>
+              <input type="text" id="entry-skill" class="bauhaus-input" oninput="handleFormChange()">
+            </div>
+
+            <div class="field-group">
+              <span class="field-label">気になるカリキュラム（カリキュラム画面とも連動）</span>
+              <div class="checkbox-grid" id="entry-curriculums"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="entry-message" class="field-label">ひみつきちでやってみたいこと（任意）</label>
+              <textarea id="entry-message" rows="3" class="bauhaus-textarea" oninput="handleFormChange()"></textarea>
+            </div>
+
+            <div id="form-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+              <button type="button" class="btn btn-primary" onclick="submitEntryPass()">
+                <i data-lucide="award" class="icon-inline" aria-hidden="true"></i>
+                <span>0期生タレントパスを発行する</span>
+              </button>
+              <button type="button" id="reset-form-btn" class="btn btn-secondary" onclick="resetEntryForm(this)">
+                <span>入力をリセット</span>
+              </button>
+            </div>
+
+            <!-- Issued Pass Preview -->
+            <div id="talent-pass-preview" class="talent-pass" hidden>
+              <div class="talent-pass-header">
+                <span class="kicker-block">HIMITSUKICHI TALENT PASS</span>
+                <span class="kicker-block kicker-block-yellow">COHORT 00</span>
+              </div>
+              <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">登録タレント名 / エリア</p>
+              <p id="pass-name-area" style="margin: 0 0 var(--space-sm) 0; font-family: var(--font-headline); font-weight: 900; font-size: 1.35rem;"></p>
+              <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">プロデュース対象スキル</p>
+              <p id="pass-skill" style="margin: 0 0 var(--space-sm) 0; font-weight: 700;"></p>
+              <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">選択カリキュラム</p>
+              <p id="pass-curriculums" style="margin: 0 0 var(--space-sm) 0; font-weight: 700;"></p>
+              <p id="pass-message-wrap" style="margin: 0; font-size: 0.9375rem;"></p>
+              <div class="talent-pass-actions">
+                <button type="button" class="btn btn-blue" onclick="downloadTalentPass()">
+                  <i data-lucide="download" class="icon-inline" aria-hidden="true"></i>
+                  <span>タレントパス(.txt)を保存</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <div style="font-family: var(--font-headline); font-weight: 900; font-size: 1.5rem; margin-bottom: var(--space-xs);">
+          ひみつきち（HIMITSUKICHI）
+        </div>
+        <p style="margin: 0 0 var(--space-xs) 0; font-weight: 700;">パパが変われば、家族が笑う。筑豊が変わる。</p>
+        <p style="margin: 0; font-size: 0.875rem; color: var(--on-surface-variant);">
+          プロジェクト名：ひみつきち（将来的にNPO法人化を予定） ｜ 発起人・代表：宮原 礼智 ｜ 活動エリア：福岡県筑豊地域
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm);">
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+          <a href="#join" class="btn btn-primary" style="min-height: 38px; padding: var(--space-xs) var(--space-md); font-size: 0.8125rem;">
+            <i data-lucide="message-circle" class="icon-inline" aria-hidden="true"></i>
+            <span>公式LINE</span>
+          </a>
+          <a href="#join" class="btn btn-secondary" style="min-height: 38px; padding: var(--space-xs) var(--space-md); font-size: 0.8125rem;">
+            <i data-lucide="instagram" class="icon-inline" aria-hidden="true"></i>
+            <span>Instagram</span>
+          </a>
+          <a href="#join" class="btn btn-secondary" style="min-height: 38px; padding: var(--space-xs) var(--space-md); font-size: 0.8125rem;">
+            <i data-lucide="facebook" class="icon-inline" aria-hidden="true"></i>
+            <span>Facebook</span>
+          </a>
+        </div>
+        <p class="footer-meta">
+          福岡県筑豊エリアを拠点に父親の役割を再定義し、スキルを地域資源へ変えるパパ専門タレント事務所「ひみつきち」公式Webサイト。
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const CURRICULUMS = [
+      {
+        id: `ifather`,
+        code: `PROGRAM 01`,
+        filterGroup: `tech`,
+        category: `IT × 子育て`,
+        title: `iFather（アイ・ファザー）`,
+        lead: `テクノロジーを駆使して、家族との時間を最大化する。`,
+        quote: `これまでの子育てはアナログすぎました。AI、クラウド、スマートホーム。テクノロジーを駆使して、家族との時間を最大化する。パパを「IT系パパ」へとアップグレードする、最もスマートな方法です。`,
+        impact: `名もなき家事やスケジュール管理を仕組み化し、浮いた時間で子どもたちとの濃密な遊び・プログラミング体験を創出します。`
+      },
+      {
+        id: `storytelling`,
+        code: `PROGRAM 02`,
+        filterGroup: `tech`,
+        category: `絵本の読み聞かせ`,
+        title: `Magic Storytelling（マジック・ストーリーテリング）`,
+        lead: `子どもの想像力というキャンバスに、言葉で魔法を描く。`,
+        quote: `単に本を読むのではありません。子どもの想像力というキャンバスに、言葉で魔法を描くのです。これは、子どもが一生忘れない「体験」のデザインです。`,
+        impact: `寝る前の10分が、子どもが待ちわびるライブシアターに変化。言葉の表現力と親子の情緒的な結びつきを深めます。`
+      },
+      {
+        id: `grill`,
+        code: `PROGRAM 03`,
+        filterGroup: `craft`,
+        category: `BBQ・アウトドア`,
+        title: `The Primitive Grill（ザ・プリミティブ・グリル）`,
+        lead: `筑豊の自然を舞台に、最高にクールな休日をプロデュース。`,
+        quote: `火を囲み、肉を焼く。人類の原点に立ち返りながら、究極のクオリティを追求する。筑豊の自然をバックグラウンドに、最高にクールな休日をプロデュースします。`,
+        impact: `週末の退屈を吹き飛ばし、自然の中で火起こしやキャンプ飯を通じて子どもたちの「生きる力」を育みます。`
+      },
+      {
+        id: `domestic`,
+        code: `PROGRAM 04`,
+        filterGroup: `craft`,
+        category: `料理・家事`,
+        title: `Domestic Art（ドメスティック・アート）`,
+        lead: `キッチンという名のスタジオで、愛する人のための芸術を。`,
+        quote: `家事は義務ではありません。それは、愛する人のための芸術です。キッチンという名のスタジオで、驚くほど美しく、効率的なワークフローを構築しましょう。`,
+        impact: `「やらされる家事」から「誇れるクリエイティブ」へ意識を転換。家族の食卓とパートナーの笑顔を劇的に増やします。`
+      },
+      {
+        id: `garage`,
+        code: `PROGRAM 05`,
+        filterGroup: `dialogue`,
+        category: `パパ同士の対話`,
+        title: `The Garage Sessions（ザ・ガレージ・セッション）`,
+        lead: `利害関係のない戦友と本音で語り合う、パパたちのシンクタンク。`,
+        quote: `Appleはガレージから始まりました。「ひみつきち」も同じです。利害関係のない仲間と本音で語り合う。そこから、新しいライフスタイルが生まれます。これは、パパたちのためのシンクタンクです。`,
+        impact: `育児の孤立を解消し、異業種のパパ同士がアイデアを掛け合わせることで、筑豊を面白くする地域プロジェクトが誕生します。`
+      }
+    ];
+
+    const TALENT_PROFILES = {
+      it: {
+        type: `ITパパ・タレント`,
+        curriculum: `推奨：iFather`,
+        build: {
+          title: `筑豊キッズ・ゲーム＆ガジェット工房 主宰`,
+          desc: `デジタル工作やプログラミングの仕組みを、子どもが自分の手で動かせるワークショップへとプロデュースします。`,
+          mission: `週末の「マイクラ・Scratch制作体験会」で講師デビュー`
+        },
+        teach: {
+          title: `パパのためのスマート育児ナビゲーター`,
+          desc: `AIやスマート家電を使った家庭内DXの知見を、忙しい同世代パパや親子へわかりやすく伝授します。`,
+          mission: `「iFather」勉強会＆家族共有カレンダー導入講座の開催`
+        },
+        connect: {
+          title: `ひみつきち デジタル・ディレクター`,
+          desc: `メンバーのスキルをデータベース化し、地域の子ども向けITイベントを企画・統括する司令塔として活躍します。`,
+          mission: `地域団体や企業と連動したデジタルスタンプラリー企画`
+        }
+      },
+      medical: {
+        type: `医療・健康パパ・タレント`,
+        curriculum: `推奨：The Garage Sessions`,
+        build: {
+          title: `親子で学ぶ・実践レスキュー体験リーダー`,
+          desc: `日常のケガの応急処置やAED体験を、子どもが主役になって動ける体験型ワークとしてデザインします。`,
+          mission: `キャンプ・BBQ場での「アウトドア救急ワークショップ」開催`
+        },
+        teach: {
+          title: `ちくほう・予防医療アンバサダー`,
+          desc: `診察室では伝えきれない体の知識や健康習慣を、家族が笑顔で聞けるトークイベントとして届けます。`,
+          mission: `地元医療機関と連携した「子育て世代の安心ケア講座」`
+        },
+        connect: {
+          title: `パパの心と体・メンテナンス相談役`,
+          desc: `働き盛りの父親たちが抱えるストレスや健康課題を、ガレージセッションで気軽に共有できる空気をつくります。`,
+          mission: `医療機関パートナー連携プログラムの立ち上げ推進`
+        }
+      },
+      diy: {
+        type: `DIYパパ・タレント`,
+        curriculum: `推奨：The Primitive Grill`,
+        build: {
+          title: `キッズスペース・リノベーション棟梁`,
+          desc: `木工・塗装・工具の腕前を活かし、地域の保育施設やイベント会場に子どもの秘密基地を実際につくり上げます。`,
+          mission: `地域施設の「木製プレイコーナーDIY改装プロジェクト」`
+        },
+        teach: {
+          title: `親子ものづくりマイスター`,
+          desc: `ノコギリや電動ドライバーの安全な使い方を子どもたちに伝え、「自分の手で直す・作る」誇りを届けます。`,
+          mission: `端材を活用した「親子でつくる秘密基地テーブル講座」`
+        },
+        connect: {
+          title: `アウトドア・ベースキャンプ設営長`,
+          desc: `イベントの会場設営や野外ギアのクリエイティブ担当として、他のパパの企画を物理的に支える要になります。`,
+          mission: `キックオフフェスタのシンボル木工モニュメント制作`
+        }
+      },
+      food: {
+        type: `料理パパ・タレント`,
+        curriculum: `推奨：Domestic Art / The Primitive Grill`,
+        build: {
+          title: `男の豪快キャンプ飯プロデュース主幹`,
+          desc: `筑豊の食材を活かし、焚き火とダッチオーブンで子どもが歓声を上げる豪快メニューを開発・提供します。`,
+          mission: `週末ファミリー向け「焚き火＆豪快BBQライブ」開催`
+        },
+        teach: {
+          title: `ドメスティック・アート料理講師`,
+          desc: `家事の延長ではない「愛する人のための芸術」としての時短＆絶品キッチンワークフローを仲間に伝授します。`,
+          mission: `奥様が思わず驚く「パパの週末スペシャル・ディナー講座」`
+        },
+        connect: {
+          title: `ガレージ・キッチン オーナー`,
+          desc: `美味しい食卓を囲むことで、初対面のパパや家族同士の心の距離を一瞬で縮めるコミュニティの太陽になります。`,
+          mission: `スキル棚卸し会での「懇親ガレージ・フード」提供`
+        }
+      },
+      creative: {
+        type: `企画・表現パパ・タレント`,
+        curriculum: `推奨：Magic Storytelling`,
+        build: {
+          title: `絵本の読み聞かせ・ライブ演出家`,
+          desc: `声のトーンや間の取り方を活かし、絵本の世界を子どもたちの頭の中に立体的に描く表現者として活躍します。`,
+          mission: `筑豊の図書館・公園での「青空Magic Storytelling」`
+        },
+        teach: {
+          title: `子どもプレゼン・アイデア道場師範`,
+          desc: `仕事で培った企画力や伝え方のコツを子ども向けに翻訳し、自分の意見を楽しく表現する体験を提供します。`,
+          mission: `子どもたちが夢を語る「ちくほうミニ・キーノート」開催`
+        },
+        connect: {
+          title: `ひみつきち タレント・プロデューサー`,
+          desc: `他のパパの隠れた特技を引き出し、「それ、地域イベントにしよう！」と企画化するプロジェクトの推進役になります。`,
+          mission: `0期生「パパ・マッピング会」のファシリテーター担当`
+        }
+      }
+    };
+
+    let appState = {
+      activeFilter: `all`,
+      selectedCurriculumId: `ifather`,
+      savedCurriculums: [],
+      simJob: `it`,
+      simStyle: `build`,
+      partnerMode: `workshop`,
+      form: {
+        name: ``,
+        area: `飯塚市`,
+        skill: ``,
+        message: ``
+      },
+      passIssued: false
+    };
+
+    function saveState() {
+      try {
+        localStorage.setItem(`himitsukichi_state`, JSON.stringify(appState));
+      } catch (e) {}
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        window.notebookAppApi.setAppState(appState).catch(function() {});
+      }
+    }
+
+    function switchHeroPanel(mode) {
+      const keynotePanel = document.getElementById(`panel-keynote`);
+      const storyPanel = document.getElementById(`panel-story`);
+      const keynoteTab = document.getElementById(`tab-keynote`);
+      const storyTab = document.getElementById(`tab-story`);
+      if (!keynotePanel || !storyPanel || !keynoteTab || !storyTab) return;
+
+      if (mode === `story`) {
+        keynotePanel.hidden = true;
+        storyPanel.hidden = false;
+        keynoteTab.classList.remove(`is-active`);
+        storyTab.classList.add(`is-active`);
+      } else {
+        keynotePanel.hidden = false;
+        storyPanel.hidden = true;
+        keynoteTab.classList.add(`is-active`);
+        storyTab.classList.remove(`is-active`);
+      }
+    }
+
+    function filterCurriculums(filterKey) {
+      appState.activeFilter = filterKey;
+      const buttons = document.querySelectorAll(`.filter-btn[data-filter]`);
+      buttons.forEach(function(btn) {
+        if (btn.dataset.filter === filterKey) {
+          btn.classList.add(`is-active`);
+        } else {
+          btn.classList.remove(`is-active`);
+        }
+      });
+
+      const visible = CURRICULUMS.filter(function(item) {
+        return filterKey === `all` || item.filterGroup === filterKey;
+      });
+      if (visible.length > 0 && !visible.some(function(c) { return c.id === appState.selectedCurriculumId; })) {
+        appState.selectedCurriculumId = visible[0].id;
+      }
+      renderCurriculumList();
+      renderSpotlight();
+      saveState();
+    }
+
+    function selectCurriculum(id) {
+      appState.selectedCurriculumId = id;
+      renderCurriculumList();
+      renderSpotlight();
+      saveState();
+    }
+
+    function renderCurriculumList() {
+      const container = document.getElementById(`curriculum-list`);
+      if (!container) return;
+
+      const filtered = CURRICULUMS.filter(function(item) {
+        return appState.activeFilter === `all` || item.filterGroup === appState.activeFilter;
+      });
+
+      container.innerHTML = filtered.map(function(item) {
+        const isSelected = item.id === appState.selectedCurriculumId;
+        const isSaved = appState.savedCurriculums.indexOf(item.id) !== -1;
+        return `
+          <button type="button" class="curriculum-item ${isSelected ? `is-selected` : ``}" onclick="selectCurriculum('${item.id}')">
+            <div class="curriculum-item-head">
+              <span class="curriculum-tag">${item.category}</span>
+              <span class="curriculum-name">${item.title}</span>
+              <span class="curriculum-sub">${item.lead}</span>
+            </div>
+            <span class="curriculum-tag">${isSaved ? `保存済` : item.code}</span>
+          </button>
+        `;
+      }).join(``);
+    }
+
+    function renderSpotlight() {
+      const current = CURRICULUMS.find(function(item) {
+        return item.id === appState.selectedCurriculumId;
+      }) || CURRICULUMS[0];
+      if (!current) return;
+
+      const catEl = document.getElementById(`spot-category`);
+      const codeEl = document.getElementById(`spot-code`);
+      const titleEl = document.getElementById(`spot-title`);
+      const leadEl = document.getElementById(`spot-lead`);
+      const quoteEl = document.getElementById(`spot-quote`);
+      const impactEl = document.getElementById(`spot-impact`);
+      const saveBtn = document.getElementById(`spot-save-btn`);
+      const saveLabel = document.getElementById(`spot-save-label`);
+
+      if (catEl) catEl.textContent = current.category;
+      if (codeEl) codeEl.textContent = current.code;
+      if (titleEl) titleEl.textContent = current.title;
+      if (leadEl) leadEl.textContent = current.lead;
+      if (quoteEl) quoteEl.textContent = current.quote;
+      if (impactEl) impactEl.textContent = current.impact;
+
+      const isSaved = appState.savedCurriculums.indexOf(current.id) !== -1;
+      if (saveBtn && saveLabel) {
+        if (isSaved) {
+          saveBtn.classList.add(`is-saved`);
+          saveLabel.textContent = `気になるリストに保存済み（クリックで解除）`;
+        } else {
+          saveBtn.classList.remove(`is-saved`);
+          saveLabel.textContent = `この体験を「気になるリスト」に保存`;
+        }
+      }
+    }
+
+    function toggleSavedCurriculum() {
+      const id = appState.selectedCurriculumId;
+      const idx = appState.savedCurriculums.indexOf(id);
+      if (idx === -1) {
+        appState.savedCurriculums.push(id);
+      } else {
+        appState.savedCurriculums.splice(idx, 1);
+      }
+      renderCurriculumList();
+      renderSpotlight();
+      renderEntryCheckboxes();
+      if (appState.passIssued) {
+        renderTalentPass();
+      }
+      saveState();
+    }
+
+    function updateTalentSim() {
+      const jobSelect = document.getElementById(`sim-job`);
+      const styleSelect = document.getElementById(`sim-style`);
+      if (!jobSelect || !styleSelect) return;
+
+      appState.simJob = jobSelect.value;
+      appState.simStyle = styleSelect.value;
+      renderTalentSim();
+      saveState();
+    }
+
+    function renderTalentSim() {
+      const profileGroup = TALENT_PROFILES[appState.simJob] || TALENT_PROFILES.it;
+      const variant = profileGroup[appState.simStyle] || profileGroup.build;
+
+      const typeEl = document.getElementById(`sim-talent-type`);
+      const curEl = document.getElementById(`sim-curriculum-tag`);
+      const titleEl = document.getElementById(`sim-project-title`);
+      const descEl = document.getElementById(`sim-desc`);
+      const missionEl = document.getElementById(`sim-mission`);
+
+      if (typeEl) typeEl.textContent = profileGroup.type;
+      if (curEl) curEl.textContent = profileGroup.curriculum;
+      if (titleEl) titleEl.textContent = variant.title;
+      if (descEl) descEl.textContent = variant.desc;
+      if (missionEl) missionEl.textContent = variant.mission;
+    }
+
+    function applySimToForm() {
+      const profileGroup = TALENT_PROFILES[appState.simJob] || TALENT_PROFILES.it;
+      const variant = profileGroup[appState.simStyle] || profileGroup.build;
+      const skillInput = document.getElementById(`entry-skill`);
+      const msgInput = document.getElementById(`entry-message`);
+      const joinSection = document.getElementById(`join`);
+
+      if (skillInput) {
+        skillInput.value = `${profileGroup.type}（${variant.title}）`;
+        appState.form.skill = skillInput.value;
+      }
+      if (msgInput && !msgInput.value.trim()) {
+        msgInput.value = `${variant.mission} に挑戦してみたいです。`;
+        appState.form.message = msgInput.value;
+      }
+
+      const feedback = document.getElementById(`form-feedback`);
+      if (feedback) {
+        feedback.className = `form-feedback is-success`;
+        feedback.textContent = `診断結果をエントリー欄に反映しました。お名前を入力してパスを発行できます。`;
+      }
+
+      saveState();
+      if (joinSection) {
+        joinSection.scrollIntoView({ behavior: `smooth` });
+      }
+    }
+
+    function selectPartnerMode(mode) {
+      appState.partnerMode = mode;
+      renderPartnerMode();
+      saveState();
+    }
+
+    function renderPartnerMode() {
+      const textEl = document.getElementById(`partner-preview-text`);
+      const btns = {
+        workshop: document.getElementById(`p-btn-workshop`),
+        space: document.getElementById(`p-btn-space`),
+        talent: document.getElementById(`p-btn-talent`)
+      };
+
+      Object.keys(btns).forEach(function(key) {
+        if (btns[key]) {
+          if (key === appState.partnerMode) {
+            btns[key].classList.add(`is-active`);
+          } else {
+            btns[key].classList.remove(`is-active`);
+          }
+        }
+      });
+
+      const messages = {
+        workshop: `選択中の連携モデル：医療機関・企業との共同ワークショップ（予防医療×アウトドア等）の企画・開催`,
+        space: `選択中の連携モデル：病院ロビー・企業社屋・遊休スペースのキッズ拠点化＆資材サポート`,
+        talent: `選択中の連携モデル：医療従事者・企業エンジニア社員の「ひみつきち」専門講師としての派遣連携`
+      };
+      if (textEl) {
+        textEl.textContent = messages[appState.partnerMode] || messages.workshop;
+      }
+    }
+
+    function renderEntryCheckboxes() {
+      const container = document.getElementById(`entry-curriculums`);
+      if (!container) return;
+
+      container.innerHTML = CURRICULUMS.map(function(item) {
+        const checked = appState.savedCurriculums.indexOf(item.id) !== -1;
+        return `
+          <label class="checkbox-pill">
+            <input type="checkbox" value="${item.id}" ${checked ? `checked` : ``} onchange="toggleEntryCheckbox('${item.id}', this.checked)">
+            <span>${item.title.split(`（`)[0]}</span>
+          </label>
+        `;
+      }).join(``);
+    }
+
+    function toggleEntryCheckbox(id, isChecked) {
+      const idx = appState.savedCurriculums.indexOf(id);
+      if (isChecked && idx === -1) {
+        appState.savedCurriculums.push(id);
+      } else if (!isChecked && idx !== -1) {
+        appState.savedCurriculums.splice(idx, 1);
+      }
+      renderCurriculumList();
+      renderSpotlight();
+      if (appState.passIssued) {
+        renderTalentPass();
+      }
+      saveState();
+    }
+
+    function handleFormChange() {
+      const nameEl = document.getElementById(`entry-name`);
+      const areaEl = document.getElementById(`entry-area`);
+      const skillEl = document.getElementById(`entry-skill`);
+      const msgEl = document.getElementById(`entry-message`);
+
+      if (nameEl) appState.form.name = nameEl.value;
+      if (areaEl) appState.form.area = areaEl.value;
+      if (skillEl) appState.form.skill = skillEl.value;
+      if (msgEl) appState.form.message = msgEl.value;
+
+      if (appState.passIssued) {
+        renderTalentPass();
+      }
+      saveState();
+    }
+
+    function submitEntryPass() {
+      handleFormChange();
+      const feedback = document.getElementById(`form-feedback`);
+      const nameVal = appState.form.name.trim();
+      const skillVal = appState.form.skill.trim();
+
+      if (!nameVal || !skillVal) {
+        if (feedback) {
+          feedback.className = `form-feedback is-error`;
+          feedback.textContent = `お名前と得意スキルの両方を入力してから、タレントパスを発行してください。`;
+        }
+        return;
+      }
+
+      appState.passIssued = true;
+      renderTalentPass();
+      saveState();
+
+      if (feedback) {
+        feedback.className = `form-feedback is-success`;
+        feedback.textContent = `0期生タレントパス（プレビュー）を発行しました！内容を確認・テキスト保存できます。`;
+      }
+    }
+
+    function renderTalentPass() {
+      const card = document.getElementById(`talent-pass-preview`);
+      if (!card) return;
+
+      if (!appState.passIssued || !appState.form.name.trim() || !appState.form.skill.trim()) {
+        card.hidden = true;
+        return;
+      }
+
+      card.hidden = false;
+      const nameAreaEl = document.getElementById(`pass-name-area`);
+      const skillEl = document.getElementById(`pass-skill`);
+      const curEl = document.getElementById(`pass-curriculums`);
+      const msgEl = document.getElementById(`pass-message-wrap`);
+
+      if (nameAreaEl) nameAreaEl.textContent = `${appState.form.name.trim()}（${appState.form.area}）`;
+      if (skillEl) skillEl.textContent = appState.form.skill.trim();
+
+      const selectedNames = CURRICULUMS.filter(function(c) {
+        return appState.savedCurriculums.indexOf(c.id) !== -1;
+      }).map(function(c) {
+        return c.title;
+      });
+      if (curEl) {
+        curEl.textContent = selectedNames.length > 0 ? selectedNames.join(` ／ `) : `全カリキュラムに興味あり（相談して決定）`;
+      }
+      if (msgEl) {
+        msgEl.textContent = appState.form.message.trim()
+          ? `意気込み：${appState.form.message.trim()}`
+          : `ミッション：最高の父親を楽しみ、筑豊を熱狂させる！`;
+      }
+    }
+
+    function resetEntryForm(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `もう一度押してリセット確定`;
+        return;
+      }
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `入力をリセット`;
+      }
+
+      appState.form = { name: ``, area: `飯塚市`, skill: ``, message: `` };
+      appState.savedCurriculums = [];
+      appState.passIssued = false;
+
+      const nameEl = document.getElementById(`entry-name`);
+      const areaEl = document.getElementById(`entry-area`);
+      const skillEl = document.getElementById(`entry-skill`);
+      const msgEl = document.getElementById(`entry-message`);
+      const feedback = document.getElementById(`form-feedback`);
+
+      if (nameEl) nameEl.value = ``;
+      if (areaEl) areaEl.value = `飯塚市`;
+      if (skillEl) skillEl.value = ``;
+      if (msgEl) msgEl.value = ``;
+      if (feedback) {
+        feedback.className = `form-feedback`;
+        feedback.textContent = `入力内容をリセットしました。`;
+      }
+
+      renderCurriculumList();
+      renderSpotlight();
+      renderEntryCheckboxes();
+      renderTalentPass();
+      saveState();
+    }
+
+    function downloadTalentPass() {
+      const selectedNames = CURRICULUMS.filter(function(c) {
+        return appState.savedCurriculums.indexOf(c.id) !== -1;
+      }).map(function(c) {
+        return c.title;
+      });
+
+      const content = [
+        `========================================`,
+        `ひみつきち（HIMITSUKICHI）0期生タレントパス`,
+        `パパが変われば、家族が笑う。筑豊が変わる。`,
+        `========================================`,
+        `お名前: ${appState.form.name.trim()}`,
+        `活動エリア: ${appState.form.area}`,
+        `得意スキル: ${appState.form.skill.trim()}`,
+        `気になるカリキュラム: ${selectedNames.length > 0 ? selectedNames.join(`, `) : `未選択`}`,
+        `ひとこと: ${appState.form.message.trim() || `Stay hungry, stay foolish. Stay Papa.`}`,
+        `----------------------------------------`,
+        `Let's make a dent in the universe, from Chikuho.`
+      ].join(`\n`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `himitsukichi-talent-pass.txt`
+        });
+        return;
+      }
+
+      const blob = new Blob([content], { type: `text/plain;charset=utf-8` });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement(`a`);
+      a.href = url;
+      a.download = `himitsukichi-talent-pass.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function setupScrollReveal() {
+      const items = document.querySelectorAll(`.reveal-ready`);
+      if (!(`IntersectionObserver` in window)) {
+        items.forEach(function(el) { el.classList.add(`is-visible`); });
+        return;
+      }
+      const observer = new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(`is-visible`);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      items.forEach(function(el) { observer.observe(el); });
+    }
+
+    async function initApp() {
+      try {
+        const localSaved = localStorage.getItem(`himitsukichi_state`);
+        if (localSaved) {
+          const parsed = JSON.parse(localSaved);
+          if (parsed && typeof parsed === `object`) {
+            appState = Object.assign(appState, parsed);
+          }
+        }
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = Object.assign(appState, saved);
+          }
+        }
+        if (appState.form) {
+          appState.form = Object.assign({ name: ``, area: `飯塚市`, skill: ``, message: `` }, appState.form);
+        }
+        if (!Array.isArray(appState.savedCurriculums)) {
+          appState.savedCurriculums = [];
+        }
+      } catch (e) {
+        // Ignore initial state read failures and use defaults
+      }
+
+      const simJobEl = document.getElementById(`sim-job`);
+      const simStyleEl = document.getElementById(`sim-style`);
+      if (simJobEl) simJobEl.value = appState.simJob || `it`;
+      if (simStyleEl) simStyleEl.value = appState.simStyle || `build`;
+
+      const nameEl = document.getElementById(`entry-name`);
+      const areaEl = document.getElementById(`entry-area`);
+      const skillEl = document.getElementById(`entry-skill`);
+      const msgEl = document.getElementById(`entry-message`);
+      if (nameEl) nameEl.value = appState.form.name || ``;
+      if (areaEl) areaEl.value = appState.form.area || `飯塚市`;
+      if (skillEl) skillEl.value = appState.form.skill || ``;
+      if (msgEl) msgEl.value = appState.form.message || ``;
+
+      filterCurriculums(appState.activeFilter || `all`);
+      renderTalentSim();
+      renderPartnerMode();
+      renderEntryCheckboxes();
+      renderTalentPass();
+      setupScrollReveal();
+
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
