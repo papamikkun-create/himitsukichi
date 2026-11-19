@@ -2132,39 +2132,64 @@
       renderTalentPass();
       saveState();
 
-      if (feedback) {
-        feedback.className = `form-feedback is-success`;
-        feedback.textContent = `1期生タレントパスを発行し、メール作成画面を開きました！そのまま送信してください。`;
-      }
-
       sendTalentPassEmail();
     }
 
-    function sendTalentPassEmail() {
+    async function sendTalentPassEmail() {
+      const feedback = document.getElementById(`form-feedback`);
+      const nameVal = appState.form.name.trim();
+      const skillVal = appState.form.skill.trim();
+      if (!nameVal || !skillVal) return;
+
       const selectedNames = CURRICULUMS.filter(function(c) {
         return appState.savedCurriculums.indexOf(c.id) !== -1;
       }).map(function(c) {
         return c.title;
       });
+      const curriculumText = selectedNames.length > 0 ? selectedNames.join(` ／ `) : `全カリキュラムに興味あり（相談して決定）`;
+      const msgVal = appState.form.message.trim() || `最高の父親を楽しみ、筑豊を熱狂させる！`;
 
-      const subject = `【ひみつきち】1期生エントリー（${appState.form.name.trim()}）`;
-      const body = [
-        `「ひみつきち」1期生にエントリーします！`,
-        ``,
-        `========================================`,
-        `ひみつきち（HIMITSUKICHI）1期生タレントパス`,
-        `========================================`,
-        `■ お名前：${appState.form.name.trim()}`,
-        `■ 活動エリア：${appState.form.area}`,
-        `■ 得意スキル・本業・趣味：${appState.form.skill.trim()}`,
-        `■ 気になるカリキュラム：${selectedNames.length > 0 ? selectedNames.join(` ／ `) : `全カリキュラムに興味あり（相談して決定）`}`,
-        `■ ひみつきちでやってみたいこと：`,
-        `${appState.form.message.trim() || `最高の父親を楽しみ、筑豊を熱狂させる！`}`,
-        `========================================`
-      ].join(`\r\n`);
+      if (feedback) {
+        feedback.className = `form-feedback`;
+        feedback.textContent = `1期生タレントパスを発行し、事務局へエントリーメールを自動送信しています...`;
+      }
 
-      const mailtoUrl = `mailto:papamikkun@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoUrl;
+      try {
+        const response = await fetch(`https://formsubmit.co/ajax/papamikkun@gmail.com`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`,
+            'Accept': `application/json`
+          },
+          body: JSON.stringify({
+            _subject: `【ひみつきち】1期生エントリー（${nameVal}）`,
+            _template: `table`,
+            _captcha: `false`,
+            "お名前": nameVal,
+            "活動エリア": appState.form.area,
+            "得意スキル・本業・趣味": skillVal,
+            "気になるカリキュラム": curriculumText,
+            "ひみつきちでやってみたいこと": msgVal
+          })
+        });
+        const result = await response.json();
+        if (response.ok && (result.success === `true` || result.success === true)) {
+          if (feedback) {
+            feedback.className = `form-feedback is-success`;
+            feedback.textContent = `1期生タレントパスを発行し、papamikkun@gmail.com へエントリー内容を自動送信しました！`;
+          }
+        } else {
+          if (feedback) {
+            feedback.className = `form-feedback is-success`;
+            feedback.textContent = `1期生タレントパスを発行し、自動送信リクエストを完了しました！（初回のみ受信メールの承認ボタンを押してください）`;
+          }
+        }
+      } catch (err) {
+        if (feedback) {
+          feedback.className = `form-feedback is-error`;
+          feedback.textContent = `通信エラーのため自動送信できませんでした。もう一度ボタンを押してください。`;
+        }
+      }
     }
 
     function renderTalentPass() {
