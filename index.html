@@ -1591,6 +1591,11 @@
             </div>
 
             <div class="field-group">
+              <label for="entry-email" class="field-label">メールアドレス <span style="color: var(--error);">*必須</span></label>
+              <input type="email" id="entry-email" class="bauhaus-input" placeholder="example@gmail.com" oninput="handleFormChange()" autocomplete="email">
+            </div>
+
+            <div class="field-group">
               <label for="entry-area" class="field-label">筑豊・活動エリア</label>
               <select id="entry-area" class="bauhaus-select" onchange="handleFormChange()">
                 <option value="飯塚市">飯塚市</option>
@@ -1637,6 +1642,8 @@
               </div>
               <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">登録タレント名 / エリア</p>
               <p id="pass-name-area" style="margin: 0 0 var(--space-sm) 0; font-family: var(--font-headline); font-weight: 900; font-size: 1.35rem;"></p>
+              <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">連絡先メールアドレス</p>
+              <p id="pass-email" style="margin: 0 0 var(--space-sm) 0; font-weight: 700;"></p>
               <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">プロデュース対象スキル</p>
               <p id="pass-skill" style="margin: 0 0 var(--space-sm) 0; font-weight: 700;"></p>
               <p style="margin: 0 0 var(--space-xs) 0; font-size: 0.875rem; color: var(--on-surface-variant);">選択カリキュラム</p>
@@ -2113,11 +2120,13 @@
 
     function handleFormChange() {
       const nameEl = document.getElementById(`entry-name`);
+      const emailEl = document.getElementById(`entry-email`);
       const areaEl = document.getElementById(`entry-area`);
       const skillEl = document.getElementById(`entry-skill`);
       const msgEl = document.getElementById(`entry-message`);
 
       if (nameEl) appState.form.name = nameEl.value;
+      if (emailEl) appState.form.email = emailEl.value;
       if (areaEl) appState.form.area = areaEl.value;
       if (skillEl) appState.form.skill = skillEl.value;
       if (msgEl) appState.form.message = msgEl.value;
@@ -2131,13 +2140,14 @@
     function submitEntryPass() {
       handleFormChange();
       const feedback = document.getElementById(`form-feedback`);
-      const nameVal = appState.form.name.trim();
-      const skillVal = appState.form.skill.trim();
+      const nameVal = (appState.form.name || ``).trim();
+      const emailVal = (appState.form.email || ``).trim();
+      const skillVal = (appState.form.skill || ``).trim();
 
-      if (!nameVal || !skillVal) {
+      if (!nameVal || !emailVal || !skillVal) {
         if (feedback) {
           feedback.className = `form-feedback is-error`;
-          feedback.textContent = `お名前と得意スキルの両方を入力してから、タレントパスを発行してください。`;
+          feedback.textContent = `お名前・メールアドレス・得意スキルの3つを入力してから、タレントパスを発行してください。`;
         }
         return;
       }
@@ -2151,9 +2161,10 @@
 
     async function sendTalentPassEmail() {
       const feedback = document.getElementById(`form-feedback`);
-      const nameVal = appState.form.name.trim();
-      const skillVal = appState.form.skill.trim();
-      if (!nameVal || !skillVal) return;
+      const nameVal = (appState.form.name || ``).trim();
+      const emailVal = (appState.form.email || ``).trim();
+      const skillVal = (appState.form.skill || ``).trim();
+      if (!nameVal || !emailVal || !skillVal) return;
 
       const selectedNames = CURRICULUMS.filter(function(c) {
         return appState.savedCurriculums.indexOf(c.id) !== -1;
@@ -2161,7 +2172,7 @@
         return c.title;
       });
       const curriculumText = selectedNames.length > 0 ? selectedNames.join(` ／ `) : `全カリキュラムに興味あり（相談して決定）`;
-      const msgVal = appState.form.message.trim() || `最高の父親を楽しみ、筑豊を熱狂させる！`;
+      const msgVal = (appState.form.message || ``).trim() || `最高の父親を楽しみ、筑豊を熱狂させる！`;
 
       if (feedback) {
         feedback.className = `form-feedback`;
@@ -2177,9 +2188,11 @@
           },
           body: JSON.stringify({
             _subject: `【ひみつきち】1期生エントリー（${nameVal}）`,
+            _replyto: emailVal,
             _template: `table`,
             _captcha: `false`,
             "お名前": nameVal,
+            "メールアドレス": emailVal,
             "活動エリア": appState.form.area,
             "得意スキル・本業・趣味": skillVal,
             "気になるカリキュラム": curriculumText,
@@ -2210,18 +2223,20 @@
       const card = document.getElementById(`talent-pass-preview`);
       if (!card) return;
 
-      if (!appState.passIssued || !appState.form.name.trim() || !appState.form.skill.trim()) {
+      if (!appState.passIssued || !(appState.form.name || ``).trim() || !(appState.form.email || ``).trim() || !(appState.form.skill || ``).trim()) {
         card.hidden = true;
         return;
       }
 
       card.hidden = false;
       const nameAreaEl = document.getElementById(`pass-name-area`);
+      const emailEl = document.getElementById(`pass-email`);
       const skillEl = document.getElementById(`pass-skill`);
       const curEl = document.getElementById(`pass-curriculums`);
       const msgEl = document.getElementById(`pass-message-wrap`);
 
       if (nameAreaEl) nameAreaEl.textContent = `${appState.form.name.trim()}（${appState.form.area}）`;
+      if (emailEl) emailEl.textContent = (appState.form.email || ``).trim();
       if (skillEl) skillEl.textContent = appState.form.skill.trim();
 
       const selectedNames = CURRICULUMS.filter(function(c) {
@@ -2250,17 +2265,19 @@
         btn.textContent = `入力をリセット`;
       }
 
-      appState.form = { name: ``, area: `飯塚市`, skill: ``, message: `` };
+      appState.form = { name: ``, email: ``, area: `飯塚市`, skill: ``, message: `` };
       appState.savedCurriculums = [];
       appState.passIssued = false;
 
       const nameEl = document.getElementById(`entry-name`);
+      const emailEl = document.getElementById(`entry-email`);
       const areaEl = document.getElementById(`entry-area`);
       const skillEl = document.getElementById(`entry-skill`);
       const msgEl = document.getElementById(`entry-message`);
       const feedback = document.getElementById(`form-feedback`);
 
       if (nameEl) nameEl.value = ``;
+      if (emailEl) emailEl.value = ``;
       if (areaEl) areaEl.value = `飯塚市`;
       if (skillEl) skillEl.value = ``;
       if (msgEl) msgEl.value = ``;
@@ -2289,6 +2306,7 @@
         `パパが変われば、家族が笑う。筑豊が変わる。`,
         `========================================`,
         `お名前: ${appState.form.name.trim()}`,
+        `メールアドレス: ${(appState.form.email || ``).trim()}`,
         `活動エリア: ${appState.form.area}`,
         `得意スキル: ${appState.form.skill.trim()}`,
         `気になるカリキュラム: ${selectedNames.length > 0 ? selectedNames.join(`, `) : `未選択`}`,
@@ -2352,7 +2370,7 @@
           }
         }
         if (appState.form) {
-          appState.form = Object.assign({ name: ``, area: `飯塚市`, skill: ``, message: `` }, appState.form);
+          appState.form = Object.assign({ name: ``, email: ``, area: `飯塚市`, skill: ``, message: `` }, appState.form);
         }
         if (!Array.isArray(appState.savedCurriculums)) {
           appState.savedCurriculums = [];
@@ -2367,10 +2385,12 @@
       if (simStyleEl) simStyleEl.value = appState.simStyle || `build`;
 
       const nameEl = document.getElementById(`entry-name`);
+      const emailEl = document.getElementById(`entry-email`);
       const areaEl = document.getElementById(`entry-area`);
       const skillEl = document.getElementById(`entry-skill`);
       const msgEl = document.getElementById(`entry-message`);
       if (nameEl) nameEl.value = appState.form.name || ``;
+      if (emailEl) emailEl.value = appState.form.email || ``;
       if (areaEl) areaEl.value = appState.form.area || `飯塚市`;
       if (skillEl) skillEl.value = appState.form.skill || ``;
       if (msgEl) msgEl.value = appState.form.message || ``;
