@@ -338,20 +338,27 @@
       font-family: var(--font-headline);
       font-weight: 900;
       font-size: clamp(2.1rem, 1.3rem + 3vw, 3.8rem);
-      line-height: 1.45;
-      letter-spacing: -0.02em;
+      line-height: 1.35;
+      letter-spacing: 0;
       margin: 0 0 var(--space-md) 0;
       color: var(--on-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 0.18em;
+      width: 100%;
     }
-    .hero-title mark {
-      display: inline-block;
+    .hero-title-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      font-feature-settings: "palt" 1;
+    }
+    .hero-title mark.hero-title-line {
       line-height: 1.2;
-      margin-block: 0.12em;
       background-color: var(--primary-container);
       color: var(--on-primary-container);
-      padding: 0.05em var(--space-xs);
-      box-decoration-break: clone;
-      -webkit-box-decoration-break: clone;
+      padding: 0.06em var(--space-sm);
     }
     .hero-catchphrase {
       font-family: var(--font-headline);
@@ -1113,7 +1120,11 @@
             <span class="kicker-block">REINVENTS FATHERHOOD</span>
             <span class="kicker-block kicker-block-yellow kicker-jp">パパ専門タレント事務所</span>
           </div>
-          <h1 class="hero-title">求む、筑豊の<br><mark>「遊べる」</mark><br>オヤジたち。</h1>
+          <h1 class="hero-title" aria-label="求む、筑豊の「遊べる」オヤジたち。">
+            <span class="hero-title-line" aria-hidden="true"><span>求</span><span>む、</span><span>筑</span><span>豊</span><span>の</span></span>
+            <mark class="hero-title-line" aria-hidden="true"><span>「</span><span>遊</span><span>べ</span><span>る</span><span>」</span></mark>
+            <span class="hero-title-line" aria-hidden="true"><span>オ</span><span>ヤ</span><span>ジ</span><span>た</span><span>ち。</span></span>
+          </h1>
           <p class="hero-catchphrase">パパが変われば、家族が笑う。筑豊が変わる。<br><span style="font-size: 0.85em; color: var(--on-surface-variant);">最高にクールな父親になるための秘密基地、始動。</span></p>
           <p class="hero-lede">
             「仕事だけの人生で、終わるつもりですか？」——既存の『父親像』という古いソフトウェアはバグだらけです。日々の育児を単なる『タスク』から、クリエイティブな活動へとアップデートしませんか？参加するパパたちを「タレント」と見なし、その専門スキルを地域資源としてプロデュースする、パパ専門の「タレント事務所」——それが秘密基地「ひみつきち」です。
